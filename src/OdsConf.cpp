@@ -1,4 +1,4 @@
-#include "ods_conf.h"
+#include "OdsConf.h"
 
 #include <Kernel/OdsInterface.h>
 

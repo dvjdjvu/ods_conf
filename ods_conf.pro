@@ -1,4 +1,4 @@
-TARGET = ods_conf
+TARGET = OdsConf
 TEMPLATE = lib
 LANGUAGE = Qt4/C++
 INCLUDEPATH = . \
@@ -16,11 +16,12 @@ QT = core \
     xml \
     xmlpatterns
 
-headers.files   += src/ods_conf.h
-headers.path    = /usr/local/include/
+headers.files   += src/OdsConf.h
+headers.path    = /usr/local/include/OdsConf
 
-target.files += lib/libods_conf.so
-target.path = /usr/local/lib/
+target.files += lib/libOdsConf.so
+target.path = /usr/local/lib/OdsConf
+
 INSTALLS += target \
          headers
 
@@ -50,13 +51,13 @@ else {
     RCC_DIR = ./build/release/.rcc
 }
 
-SOURCES = src/ods_conf.cpp 
-HEADERS += src/ods_conf.h 
+SOURCES = src/OdsConf.cpp 
+HEADERS += src/OdsConf.h 
 LIBS += -lOdsInterface \
     -L/usr/local/ods/lib \
     -L/usr/odsAppSrv/tools/qjson/lib \
     -lqjson
 DESTDIR += lib
 QT -= gui
-OPENEDFILES += src/ods_conf.h \
-    src/ods_conf.cpp 
+OPENEDFILES += src/OdsConf.h \
+    src/OdsConf.cpp 
