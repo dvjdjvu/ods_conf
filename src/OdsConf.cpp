@@ -15,7 +15,8 @@ OdsConf::OdsConf()
     
 }
 
-OdsConf::OdsConf(QString db_ip, QString db_name, QString db_login, QString db_pass, QString scheme_name, QString type_name)
+void
+OdsConf::init(QString db_ip, QString db_name, QString db_login, QString db_pass, QString scheme_name, QString type_name)
 {
     this->db_ip = db_ip;
     this->db_name = db_name;
@@ -219,34 +220,6 @@ OdsConf::getTaskList()
     taskList.removeDuplicates();
     
     return taskList;
-}
-
-QString 
-OdsConf::getURIFunct(QString uri)
-{
-    QRegExp rx("\\/(\\w+)[\\?|\\z]");
-    
-    int pos = rx.indexIn(uri);
-    if (pos > -1) {
-        return rx.cap(1);
-    }
-    
-    return "/";
-}
-
-QString
-OdsConf::getURIParam(const HttpRequest& _req, QString par)
-{
-    QHash<QString, QString> hash = _req.getParameters("utf8");
-    QHash<QString, QString>::const_iterator i = hash.constBegin();
-    while (i != hash.constEnd()) {
-        if (i.key() == par) {
-            return QString(i.value().toLocal8Bit());
-        }    
-        ++i;
-    }
-    
-    return "";
 }
 
 bool

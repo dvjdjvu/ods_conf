@@ -1,5 +1,5 @@
-#ifndef ODS_CONF_SAVE_IMPL_H
-#define ODS_CONF_SAVE_IMPL_H
+#ifndef ODS_CONF_H
+#define ODS_CONF_H
 
 #include <QObject>
 #include <QMap>
@@ -20,8 +20,9 @@ class OdsConf : public QObject
 
 public:
     OdsConf();
-    OdsConf(QString db_ip, QString db_name, QString db_login, QString db_pass, QString scheme_name, QString type_name);
     ~OdsConf();
+    
+    void init(QString db_ip, QString db_name, QString db_login, QString db_pass, QString scheme_name, QString type_name);
     
     bool addRecord(QString task, QString value, QString key);
     bool delTask(QString task);
@@ -34,10 +35,6 @@ public:
     QStringList getTask(QString task);
     QString getTaskKey(QString task, QString key);
     QStringList getTaskList();
-    
-    
-    QString getURIFunct(QString uri);
-    QString getURIParam(const HttpRequest& _req, QString par);
     
     bool connect();
 
@@ -63,4 +60,4 @@ private:
     QString type_name;
 };
 
-#endif // ODS_CONF_SAVE_IMPL_H
+#endif // ODS_CONF_H
