@@ -260,10 +260,7 @@ OdsConf::connect()
         qsrand((uint) getpid());
         QString prog_id = "ods_conf" + QString::number(qrand());
         
-        if (!this->odsIfaceMgr.connect(this->db_login, this->db_pass,
-                                                prog_id,
-                                                this->db_ip,
-                                                this->db_name))
+        if (!this->odsIfaceMgr.connect(this->db_login, this->db_pass, prog_id, this->db_ip, this->db_name))
         {
             break;
         }

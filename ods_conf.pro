@@ -16,6 +16,15 @@ QT = core \
     xml \
     xmlpatterns
 
+headers.files   += src/ods_conf.h
+headers.path    = /usr/local/include/
+
+target.files += lib/libods_conf.so
+target.path = /usr/local/lib/
+INSTALLS += target \
+         headers
+
+
 # UI_DIR = ./src/forms
 
 _OS_ = $$system("[ ! -e /usr/include/mac.h ]")
