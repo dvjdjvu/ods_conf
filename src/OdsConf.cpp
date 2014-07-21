@@ -223,11 +223,23 @@ OdsConf::getTaskList()
 }
 
 bool
-OdsConf::connect()
+OdsConf::isconnect()
+{
+    return this->odsIfaceMgr.isConnected();
+}
+
+bool
+OdsConf::disconnect()
+{
+    return this->odsIfaceMgr.disconnect();
+}
+
+bool
+OdsConf::connect(ODS::OdsInterface* odsIface)
 {
     do {
 
-        this->odsIface = new OdsInterface();
+        this->odsIface = odsIface;
         this->odsIfaceMgr = this->odsIface->connectionManager();
         
         qsrand((uint) getpid());

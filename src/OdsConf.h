@@ -36,7 +36,9 @@ public:
     QString getTaskKey(QString task, QString key);
     QStringList getTaskList();
     
-    bool connect();
+    bool connect(ODS::OdsInterface* odsIface);
+    bool isconnect();
+    bool disconnect();
 
 private:
     ODS::OdsInterface* odsIface;
