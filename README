@@ -1,0 +1,48 @@
+Библиотека odsConf.
+
+Предоставляет из себя класс OdsConf, содержащий след. методы:
+
+    void init(QString db_ip, QString db_name, QString db_login, QString db_pass, QString scheme_name, QString type_name);
+    
+    bool connect(ODS::OdsInterface* odsIface);
+    bool isconnect();
+    bool disconnect();
+    
+    bool addRecord(QString task, QString value, QString key);
+    bool delTask(QString task);
+    bool delTaskKey(QString task, QString key);
+    bool delAll();
+    
+    bool updateTaskKey(QString task, QString value, QString key);
+    
+    QStringList getAll();
+    QStringList getTask(QString task);
+    QString getTaskKey(QString task, QString key);
+    QStringList getTaskList();
+    
+    
+Использование:
+
+    Вызвать метод init.
+    Пример: init(QString("192.168.5.198"), QString("iksori_db"), QString("postgres"), QString("1"), QString("$$$Системные ИО"), QString("Настройка"));
+    
+    Вызвать метод connect. Куда передается ODS::OdsInterface* odsIface.
+    
+    После начинается работа непосредственно с базой:
+        Основные парметры методов:
+            QString task  --- имя задачи.
+            QString value --- значение параметра.
+            QString key   --- имя параметра.
+    
+        Методы:
+            addRecord добавляет новыую запись в базу.
+            delTask удаляет все записи связанные с задачей.
+            delTaskKey удаляет параметр из настроек задачи.
+            delAll удаляет все.
+            
+            updateTaskKey обновляет запись, если запись есть. Если нет, ни чего не происходит.
+            
+            getAll берет все записи из базы. Возвращает их в виде списка строк, где каждая строка представленна в виде json записи ({"task": "String", "val": "String", "key": "String"})
+            getTask берет записи по заданной задачи. Возвращает их в виде списка строк, где каждая строка представленна в виде json записи ({"task": "String", "val": "String", "key": "String"})
+            getTaskKey берет значение параметра задачи. 
+            getTaskList берет список задач. Возвращает их в виде списка строк, каждая строка имя задачи.
