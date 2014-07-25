@@ -1,0 +1,7 @@
+Package: libodsconf
+Version: 1.0
+Section: libs
+Architecture: amd64
+Maintainer: Jessy James <djvu@inbox.ru>
+Description: Библиотека сохранения настроек приложений
+ В базе ПодХода.
