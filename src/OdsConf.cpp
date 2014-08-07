@@ -9,6 +9,12 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <qt4/QtCore/qglobal.h>
+#include <DictManager>
+#include <Dictionary>
+#include <Entry>
+#include <Errors>
+#include <DictManager.h>
+#include <Entry.h>
 
 OdsConf::OdsConf()
 {
@@ -118,6 +124,50 @@ OdsConf::updateTaskKey(QString task, QString value, QString key)
     } while(0);
     
     return false;
+}
+
+QString
+OdsConf::getReplaceVal(ODS::OdsInterface* odsIface, QString scheme_name, QString type_name, QString val, QString field_repl)
+{
+    QString replace = "";
+    Dict::DictManager dm(odsIface);    
+    QList<Dict::Entry> entries = dm.getEntries(scheme_name, type_name, QString("\"Краткое наименование\" = '%1' OR \"Полное наименование\" = '%1'").arg(val));
+    
+    foreach(const Dict::Entry &entry, entries) {
+        replace += entry.attrValue(field_repl);
+        break;
+    }
+    
+    return replace;
+    
+    /* ******************************************************************* 
+    QString replace = "";
+    
+    do {
+        
+        ODS::IObjectManager ioMgr = odsIface->iobjectManager();
+        if (!ioMgr.isValid())
+        {
+            break;
+        }
+        
+        IObjectCursor cursor = ioMgr.getIObjects(scheme_name + "." + type_name);
+        if (!cursor.isValid()) {
+            break;
+        }
+        
+        IObjectCursor::iterator it = cursor.begin();
+        while (it != cursor.end()) {
+            IObject obj = *it;
+            if (obj.getStringAttr("Полное наименование") == val || obj.getStringAttr("Краткое наименование") == val) {
+                replace = obj.getStringAttr(field_repl);
+                break;
+            }
+            it++;
+        }
+    } while(0);
+    return replace;
+    */
 }
 
 QStringList 

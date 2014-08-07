@@ -6,6 +6,7 @@ INCLUDEPATH = . \
     src/forms \
     ../include \
     /usr/local/ods/include \
+    /usr/local/dict/include \
     /usr/odsAppSrv/include \
     /usr/odsAppSrv/tools/qjson/include
 CONFIG += qt \
@@ -55,8 +56,10 @@ SOURCES = src/OdsConf.cpp
 HEADERS += src/OdsConf.h 
 LIBS += -lOdsInterface \
     -L/usr/local/ods/lib \
+    -L/usr/local/dict/lib \
     -L/usr/odsAppSrv/tools/qjson/lib \
-    -lqjson
+    -lqjson \
+    -ldict_api
 DESTDIR += lib
 QT -= gui
 OPENEDFILES += src/OdsConf.h \

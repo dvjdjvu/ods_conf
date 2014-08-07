@@ -31,6 +31,7 @@ public:
     
     bool updateTaskKey(QString task, QString value, QString key);
     
+    QString getReplaceVal(ODS::OdsInterface* odsIface, QString scheme_name, QString type_name, QString val, QString field_repl);
     QStringList getAll();
     QStringList getTask(QString task);
     QString getTaskKey(QString task, QString key);
