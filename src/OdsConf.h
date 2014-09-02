@@ -6,9 +6,7 @@
 #include <QStringList>
 #include <QRegExp>
 
-#include <OdsAppSrvInterface.h>
-#include "serializer.h"
-#include "parser.h"
+#include <OdsInterface>
 
 #include <IObjectScheme>
 
@@ -48,15 +46,6 @@ private:
     ODS::OdsInterface* odsIface;
     ODS::ConnectionManager odsIfaceMgr;
     ODS::IObjectManager ioMgr;
-    
-    QMap<QString, QString> conf;
-
-    QJson::Parser parser;
-    QJson::Serializer serializer;
-
-    QVariantMap query;
-    QVariantMap response;
-    QVariantMap error;
     
     QString db_ip;
     QString db_name;
