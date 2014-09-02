@@ -64,3 +64,6 @@ DESTDIR += lib
 QT -= gui
 OPENEDFILES += src/OdsConf.h \
     src/OdsConf.cpp 
+
+QMAKE_CFLAGS_WARN_ON -= -Wall
+QMAKE_CXXFLAGS_WARN_ON -= -Wall

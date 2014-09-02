@@ -68,6 +68,38 @@ OdsConf::addRecord(QString task, QString value, QString key)
 }
 
 bool 
+OdsConf::addSpecialRecord(QString task, QString value, QString key, ByteArray specialValue, QString specialType)
+{   
+    do {
+        IObjectCursor cursor = this->ioMgr.getIObjects(this->scheme_name + "." + this->type_name);
+        if (!cursor.isValid()) {
+            break;
+        }
+        
+        IObjectCursor::iterator it = cursor.begin();
+        while (it != cursor.end()) {
+            IObject obj = *it;
+            if (obj.getStringAttr("Задача") == task && obj.getStringAttr("Ключ") == key) {            
+                return false;
+            }
+            it++;
+        }
+        
+        // Добавление записи.
+        IObject obj = this->ioMgr.createIObject(this->scheme_name + "." + this->type_name);
+        obj.setAttr("Задача", task);
+        obj.setAttr("Значение", value);
+        obj.setAttr("Ключ", key);
+        obj.setAttr("Специальное значение", specialValue);
+        obj.setAttr("Специальный тип", specialType);
+        return this->ioMgr.saveIObject(obj);
+        
+    } while(0);
+    
+    return false;
+}
+
+bool 
 OdsConf::delTask(QString task)
 {
     QString del = "\"Задача\" = '" + task + "'";
@@ -116,6 +148,34 @@ OdsConf::updateTaskKey(QString task, QString value, QString key)
                 obj.setAttr("Задача", task);
                 obj.setAttr("Значение", value);
                 obj.setAttr("Ключ", key);
+                this->ioMgr.updateIObject(obj);
+                return true;
+            }
+            it++;
+        }
+    } while(0);
+    
+    return false;
+}
+
+bool 
+OdsConf::updateSpecialValue(QString task, QString value, QString key, ByteArray specialValue, QString specialType)
+{    
+    do {
+        IObjectCursor cursor = this->ioMgr.getIObjects(this->scheme_name + "." + this->type_name);
+        if (!cursor.isValid()) {
+            break;
+        }
+        
+        IObjectCursor::iterator it = cursor.begin();
+        while (it != cursor.end()) {
+            IObject obj = *it;
+            if (obj.getStringAttr("Задача") == task && obj.getStringAttr("Ключ") == key) {            
+                obj.setAttr("Задача", task);
+                obj.setAttr("Значение", value);
+                obj.setAttr("Ключ", key);
+                obj.setAttr("Специальное значение", specialValue);
+                obj.setAttr("Специальный тип", specialType);
                 this->ioMgr.updateIObject(obj);
                 return true;
             }
