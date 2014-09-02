@@ -253,6 +253,17 @@ OdsConf::getAll()
     
     return All;
 }
+
+IObjectCursor
+OdsConf::getSpecialAll()
+{
+    IObjectCursor cursor = this->ioMgr.getIObjects(this->scheme_name + "." + this->type_name);
+    if (!cursor.isValid()) {
+        
+    }
+        
+    return cursor;
+}
     
 QStringList 
 OdsConf::getTask(QString task)
@@ -349,7 +360,12 @@ OdsConf::connect(ODS::OdsInterface* odsIface)
 {
     do {
 
-        this->odsIface = odsIface;
+        if (odsIface == NULL) {
+            this->odsIface = new OdsInterface();
+        } else {
+            this->odsIface = odsIface;    
+        }
+        
         this->odsIfaceMgr = this->odsIface->connectionManager();
         
         qsrand((uint) getpid());

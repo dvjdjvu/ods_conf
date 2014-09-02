@@ -35,6 +35,7 @@ public:
     
     QString getReplaceVal(ODS::OdsInterface* odsIface, QString scheme_name, QString type_name, QString val, QString field_repl);
     QStringList getAll();
+    IObjectCursor getSpecialAll();
     QStringList getTask(QString task);
     QString getTaskKey(QString task, QString key);
     QStringList getTaskList();
