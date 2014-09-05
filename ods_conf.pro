@@ -21,7 +21,7 @@ headers.files   += src/OdsConf.h
 headers.path    = /usr/local/include/OdsConf
 
 target.files += lib/libOdsConf.so
-target.path = /usr/local/lib/OdsConf
+target.path = /usr/local/ods/lib
 
 INSTALLS += target \
          headers
