@@ -37,6 +37,44 @@ OdsConf::~OdsConf()
 
 }
 
+bool
+OdsConf::setRules(IObject iobj)
+{
+    if (!iobj.isValid()) {
+        return false;
+    }
+    
+    Subject user = this->subMgr.getCurrentUser();
+    Subject grp  = this->subMgr.getGroup("$$$Все пользователи");
+    Subject grp1 = this->subMgr.getGroup("$$$Системные администраторы");
+
+    if (!user.isValid()) {
+        return false;
+    }
+    
+    if (!grp.isValid()) {
+        return false;
+    }
+    
+    if (!grp1.isValid()) {
+        return false;
+    }
+    
+    if (!grp1.setRightsToIObject(iobj, ODS::Right::Read)) {
+        return false;
+    }
+                
+    if (!grp.setRightsToIObject(iobj, ODS::Right::Read)) {
+        return false;
+    }
+    
+    if (!user.setRightsToIObject(iobj, ODS::Right::NoRight)) {
+        return false;
+    }
+    
+    return true;
+}
+
 bool 
 OdsConf::addRecord(QString task, QString value, QString key)
 {   
@@ -60,7 +98,12 @@ OdsConf::addRecord(QString task, QString value, QString key)
         obj.setAttr("Задача", task);
         obj.setAttr("Значение", value);
         obj.setAttr("Ключ", key);
-        return this->ioMgr.saveIObject(obj);
+        
+        if (!this->ioMgr.saveIObject(obj)) {
+            return false;
+        }
+        
+        return setRules(obj);
         
     } while(0);
     
@@ -92,7 +135,12 @@ OdsConf::addSpecialRecord(QString task, QString value, QString key, ByteArray sp
         obj.setAttr("Ключ", key);
         obj.setAttr("Специальное значение", specialValue);
         obj.setAttr("Специальный тип", specialType);
-        return this->ioMgr.saveIObject(obj);
+        
+        if(!this->ioMgr.saveIObject(obj)) {
+            return false;
+        }
+        
+        return setRules(obj);
         
     } while(0);
     
@@ -475,13 +523,13 @@ OdsConf::connect(ODS::OdsInterface* odsIface)
         if (odsIface == NULL) {
             this->odsIface = new OdsInterface();
         } else {
-            this->odsIface = odsIface;    
+            this->odsIface = odsIface;
         }
         
         this->odsIfaceMgr = this->odsIface->connectionManager();
         
         if (this->odsIfaceMgr.isConnected()) {
-            return true;
+            break;
         }
         
         qsrand((uint) getpid());
@@ -489,7 +537,7 @@ OdsConf::connect(ODS::OdsInterface* odsIface)
         
         if (!this->odsIfaceMgr.connect(this->db_login, this->db_pass, prog_id, this->db_ip, this->db_name))
         {
-            break;
+            return false;
         }
         /*
         IObjectScheme scheme =  this->odsIface->structureManager().getScheme(this->scheme_name);//"$$$Системные ИО");//this->scheme_name);
@@ -504,15 +552,21 @@ OdsConf::connect(ODS::OdsInterface* odsIface)
             break;
         }
         */
-        this->ioMgr = this->odsIface->iobjectManager();
-        if (!this->ioMgr.isValid())
-        {
-            break;
-        }
 
-        return true;
     } while (0);
     
-    return false;
+    this->ioMgr = this->odsIface->iobjectManager();
+    if (!this->ioMgr.isValid())
+    {
+        return false;
+    }
+        
+    this->subMgr = this->odsIface->subjectManager();
+    if (!this->subMgr.isValid())
+    {
+        return false;
+    }
+    
+    return true;
 }
 

@@ -21,6 +21,8 @@ public:
     ~OdsConf();
     
     void init(QString db_ip, QString db_name, QString db_login, QString db_pass, String scheme_name, String type_name);
+
+    bool setRules(IObject iobj);
     
     bool addRecord(QString task, QString value, QString key);
     bool addSpecialRecord(QString task, QString value, QString key, ByteArray specialValue, QString specialType);
@@ -38,7 +40,7 @@ public:
     IObjectCursor getSpecialAll();
     QStringList getTask(QString task);
     QString getTaskKey(QString task, QString key);
-    ByteArray getSpecialValue(QString, QString);
+    ByteArray getSpecialValue(QString task, QString key);
     QStringList getTaskList();
     
     bool connect(ODS::OdsInterface* odsIface);
@@ -49,6 +51,7 @@ private:
     ODS::OdsInterface* odsIface;
     ODS::ConnectionManager odsIfaceMgr;
     ODS::IObjectManager ioMgr;
+    ODS::SubjectManager subMgr;
     
     QString db_ip;
     QString db_name;
